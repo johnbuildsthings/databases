@@ -20,57 +20,62 @@ var Message = sequelize.define('messages', {
   room: Sequelize.STRING
 });
 
-Message.sync();
+
+User.hasMany(Message);
+Message.belongsTo(User);
+
 User.sync();
-var tables = {
-  user: User,
-  messages: Message
-};
+Message.sync();
 
-var buildObj = function(keysArray, valuesArray){
-  var obj = {};
-  for(var i=0;i<keysArray.length;i++){
-    obj[keysArray[i]] = valuesArray[i];
-  }
-  return JSON.parse(JSON.stringify(obj));
-}
+exports.User = User;
+exports.Message = Message;
 
-exports.addToDB = function(table, rowsArray, valuesArray, cb){
-  var tableName = tables[table];
-  // console.log('++++++++++++++++++++++++++ ' + tableName);
-  tableName.sync().then(function(){
-    var info = buildObj(rowsArray, valuesArray);
-    info = tableName.build(info);
-    info.save().then(function(){
-      console.log('error');
-      tableName.findAll({where: info}).then(function(usrs){
+// var tables = {
+//   user: User,
+//   messages: Message
+// };
 
-      })
-    });
-  })
-  .catch(function(err){
-    console.log('error', err/*, 'tableName', tableName*/);
-  })
-  cb();
-}
+// var buildObj = function(keysArray, valuesArray){
+//   var obj = {};
+//   for(var i=0;i<keysArray.length;i++){
+//     obj[keysArray[i]] = valuesArray[i];
+//   }
+//   return JSON.parse(JSON.stringify(obj));
+// }
 
-exports.getFromDB = function(table, returnColumn, searchColumn, value, cb){
-  var tableName = tables[table];
-  // console.log(tableName);
-  tableName.sync().then(function() {
-    var info = buildObj(searchColumn, value);
-    tableName.findAll().then(function(data){
-      // Return the info we've found here.
-      // for (var i = 0; i < data.length; i++) {
-      //   console.log(data[i] + " exists");
-      // }
-      // plain: true;
-      console.log('data values: ', data.get({plain:true}));
-      return data.dataValues;
-    })
-  });
-  cb();
-}
+// exports.addToDB = function(table, rowsArray, valuesArray, cb){
+//   var tableName = tables[table];
+//   // console.log('++++++++++++++++++++++++++ ' + tableName);
+//   tableName.sync().then(function(){
+//     var info = buildObj(rowsArray, valuesArray);
+//     info = tableName.build(info);
+//     info.save().then(function(){
+//       console.log('error');
+//       tableName.findAll({where: info}).then(function(usrs){
+
+//       })
+//     });
+//   })
+//   .catch(function(err){
+//     console.log('error', err/*, 'tableName', tableName*/);
+//   })
+//   cb();
+// }
+
+// exports.getFromDB = function(table, returnColumn, searchColumn, value, cb){
+//   var tableName = tables[table];
+//   // console.log(tableName);
+//   tableName.sync().then(function() {
+//     var info = buildObj(searchColumn, value);
+//     Message.findAll({ include: [User] })
+//     .complete(function(err, data){  
+//       console.log('data values: ', JSON.parse(JSON.stringify(data)));
+//       cb(data);
+//       return data;
+//     })
+//   });
+//   cb();
+// }
 
 /* .sync() makes Sequelize create the database table for us if it doesn't
  *  exist already: */

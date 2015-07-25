@@ -1,5 +1,5 @@
 var db = require('../db');
-
+var controller = require('../controllers/');
 
 
 
@@ -11,7 +11,9 @@ module.exports = {
 
   users: {
     // Ditto as above.
-    get: function () {},
+    get: function (callback) {
+
+    },
     post: function () {}
   }
 };

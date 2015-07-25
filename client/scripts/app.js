@@ -83,7 +83,7 @@ var FormView = Backbone.View.extend({
 
 var MessageView = Backbone.View.extend({
 
-  template: _.template('<div class="chat" data-id="<%- messageId %>"> \
+  template: _.template('<div class="chat" data-id="<%- id %>"> \
                        <div class="username"><%- username %></div> \
                        <div class="text"><%= message %></div> \
                        </div>'),
@@ -107,10 +107,10 @@ var MessagesView = Backbone.View.extend({
   },
 
   renderMessage: function(message){
-    if( !this.onscreenMessages[message.get('messageId')] ){
+    if( !this.onscreenMessages[message.get('id')] ){
       var messageView = new MessageView({model: message});
       this.$el.prepend(messageView.render());
-      this.onscreenMessages[message.get('messageId')] = true;
+      this.onscreenMessages[message.get('id')] = true;
     }
   }
 

@@ -15,16 +15,16 @@ CREATE TABLE messages (
 
 /* Create other tables and define schemas for them here! */
 CREATE TABLE users (
-  userid MEDIUMINT NOT NULL AUTO_INCREMENT,
+  userId MEDIUMINT NOT NULL AUTO_INCREMENT,
   name VARCHAR(20),
 
   PRIMARY KEY (userid)
 );
 
-CREATE TABLE users_messages (
-  userId MEDIUMINT,
-  messageId MEDIUMINT
-);
+-- CREATE TABLE users_messages (
+--   userId MEDIUMINT,
+--   messageId MEDIUMINT
+-- );
 
 /*  Execute this file from the command line by typing:
  *    mysql -u root < server/schema.sql
