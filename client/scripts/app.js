@@ -13,7 +13,7 @@ var sanitize = function(input) {
 /////////////////////////////////////////////////////////////////////////////
 
 var Message = Backbone.Model.extend({
-  url: 'http://127.0.0.1:3000/classes/messages',
+  url: 'http://10.8.28.254:3000/classes/messages',
   defaults: {
     username: '',
     roomname: 'lobby'
@@ -22,7 +22,7 @@ var Message = Backbone.Model.extend({
 
 var Messages = Backbone.Collection.extend({
   model: Message,
-  url: 'http://127.0.0.1:3000/classes/messages',
+  url: 'http://10.8.28.254:3000/classes/messages',
 
   loadMsgs: function(){
     this.fetch();
