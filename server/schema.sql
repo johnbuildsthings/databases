@@ -4,16 +4,25 @@ USE chat;
 
 CREATE TABLE messages (
   /* Describe your table here.*/
-  userId INT(4),
+  messageId MEDIUMINT NOT NULL AUTO_INCREMENT,
   message VARCHAR(160),
   room VARCHAR(20),
-  time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+  PRIMARY KEY (messageId)
 );
 
 /* Create other tables and define schemas for them here! */
 CREATE TABLE users (
-  id INT(4),
-  name VARCHAR(20)
+  userid MEDIUMINT NOT NULL AUTO_INCREMENT,
+  name VARCHAR(20),
+
+  PRIMARY KEY (userid)
+);
+
+CREATE TABLE users_messages (
+  userId MEDIUMINT,
+  messageId MEDIUMINT
 );
 
 /*  Execute this file from the command line by typing:

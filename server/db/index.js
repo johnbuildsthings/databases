@@ -5,3 +5,14 @@ var mysql = require('mysql');
 // and to the database "chat".
 
 
+exports.dbConnection = mysql.createConnection({
+  user: "root",
+  password: "",
+  database: "chat"
+});
+// export.dbConnection.connect();
+// var tablename = "messages"; // TODO: fill this out
+
+//  Empty the db table before each test so that multiple tests
+//  * (or repeated runs of the tests) won't screw each other up: 
+// dbConnection.query("truncate " + tablename, done);
