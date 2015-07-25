@@ -1,66 +1,42 @@
-var mysql = require('mysql');
+/* You'll need to
+ * npm install sequelize
+ * before running this example. Documentation is at http://sequelizejs.com/
+ */
 
-// Create a database connection and export it from this file.
-// You will need to connect with the user "root", no password,
-// and to the database "chat".
+var Sequelize = require("sequelize");
+var sequelize = new Sequelize("chatter", "root", "");
+/* TODO this constructor takes the database name, username, then password.
+ * Modify the arguments if you need to */
 
-
-exports.dbConnection = mysql.createPool({
-  connectionLimit: 100,
-  user: "root",
-  password: "",
-  database: "chat",
-  debug: false
+/* first define the data structure by giving property names and datatypes
+ * See http://sequelizejs.com for other datatypes you can use besides STRING. */
+var User = sequelize.define('User', {
+  username: Sequelize.STRING
 });
-// export.dbConnection.connect();
-// var tablename = "messages"; // TODO: fill this out
 
-//  Empty the db table before each test so that multiple tests
-//  * (or repeated runs of the tests) won't screw each other up: 
-// dbConnection.query("truncate " + tablename, done);
+var Message = sequelize.define('Message' {
+  userid: Sequelize.INTEGER,
+  text: Sequelize.STRING,
+  roomname: Sequelize.STRING
+});
 
-exports.addToDB = function(table, rowsArray, valuesArray, cb){
-  exports.dbConnection.getConnection(function(err, connection){
-    if (err){
-      connection.release();
-      console.log('connection error in addToDB');
-      return ;
-    }
+/* .sync() makes Sequelize create the database table for us if it doesn't
+ *  exist already: */
+User.sync().success(function() {
+  /* This callback function is called once sync succeeds. */
 
-    var sql = "INSERT INTO ?? (??) VALUES (?);"
-    var inserts = [table, rowsArray, valuesArray];
-    sql = mysql.format(sql, inserts);
-    connection.query(sql, function(err, result){
-      connection.release();
-      if(err){
-        console.log('error updating users db', err);
-      }else{
-        console.log('success, ', result);
-      }
-    });
-    cb();
-  });
-}
+  // now instantiate an object and save it:
+  var newUser = User.build({username: "Jean Valjean"});
+  newUser.save().success(function() {
 
-exports.getFromDB = function(table, returnColumn, searchColumn, value, cb){
-  exports.dbConnection.getConnection(function(err, connection){
-    if(err){
-      connection.release();
-      console.log('connection error in getFromDB');
-      return;
-    }
-    var sql = "SELECT * FROM messages;" // WHERE ?? = (?);"
-    var inserts = [returnColumn, table, searchColumn, value];
-    // sql = mysql.format(sql, inserts);
-    connection.query(sql, function(err, result){
-      connection.release();
-      if(err){
-        console.log('error updating users db', err);
-      }else{
-        console.log('success, ', result);
-        cb(JSON.stringify(result));
-        return result;
+    /* This callback function is called once saving succeeds. */
+
+    // Retrieve objects from the database:
+    User.findAll({ where: {username: "Jean Valjean"} }).success(function(usrs) {
+      // This function is called back with an array of matches.
+      for (var i = 0; i < usrs.length; i++) {
+        console.log(usrs[i].username + " exists");
       }
     });
   });
-}
+});
