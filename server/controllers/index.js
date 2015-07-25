@@ -17,7 +17,7 @@ module.exports = {
       // console.log('POST MESSAGE');
       var data = req.body;
       // console.log(data);
-      connection.addToDB('messages', ['message', 'room'], [data.message, data.roomname], function(){res.end();});
+      connection.addToDB('messages', ['message', 'room', 'username'], [data.message, data.roomname, data.username], function(){res.end();});
       // res.end();
 
     } // a function which handles posting a message to the database

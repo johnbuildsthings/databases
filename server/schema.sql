@@ -7,6 +7,7 @@ CREATE TABLE messages (
   messageId MEDIUMINT NOT NULL AUTO_INCREMENT,
   message VARCHAR(160),
   room VARCHAR(20),
+  username VARCHAR(20),
   time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
   PRIMARY KEY (messageId)

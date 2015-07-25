@@ -29,19 +29,19 @@ var Messages = Backbone.Collection.extend({
   },
 
   parse: function(response, options){
-    //console.log(response);
+    console.log(response);
     var results = [];
-    // for (var key in response) {
-    //   results.push(response[key]);
-    // }
-    for( var i = response.results.length-1; i >= 0; i-- ){
-      if(response.results[i].message.slice(-3) === 'gif' || response.results[i].message.slice(-3) === 'jpg') {
-        response.results[i].message = '<img src="'+response.results[i].message+'" />'; 
-      } else {
-        response.results[i].message = sanitize(response.results[i].message);
-      }
-      results.push(response.results[i]);
+    for (var key in response) {
+      results.push(response[key]);
     }
+    // for( var i = response.results.length-1; i >= 0; i-- ){
+    //   if(response.results[i].message.slice(-3) === 'gif' || response.results[i].message.slice(-3) === 'jpg') {
+    //     response.results[i].message = '<img src="'+response.results[i].message+'" />'; 
+    //   } else {
+    //     response.results[i].message = sanitize(response.results[i].message);
+    //   }
+    //   results.push(response.results[i]);
+    // }
     return results;
   }
 });
@@ -83,7 +83,7 @@ var FormView = Backbone.View.extend({
 
 var MessageView = Backbone.View.extend({
 
-  template: _.template('<div class="chat" data-id="<%- objectId %>"> \
+  template: _.template('<div class="chat" data-id="<%- messageId %>"> \
                        <div class="username"><%- username %></div> \
                        <div class="text"><%= message %></div> \
                        </div>'),
@@ -107,10 +107,10 @@ var MessagesView = Backbone.View.extend({
   },
 
   renderMessage: function(message){
-    if( !this.onscreenMessages[message.get('objectId')] ){
+    if( !this.onscreenMessages[message.get('messageId')] ){
       var messageView = new MessageView({model: message});
       this.$el.prepend(messageView.render());
-      this.onscreenMessages[message.get('objectId')] = true;
+      this.onscreenMessages[message.get('messageId')] = true;
     }
   }
 
