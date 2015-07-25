@@ -5,10 +5,12 @@ var mysql = require('mysql');
 // and to the database "chat".
 
 
-exports.dbConnection = mysql.createConnection({
+exports.dbConnection = mysql.createPool({
+  connectionLimit: 100,
   user: "root",
   password: "",
-  database: "chat"
+  database: "chat",
+  debug: false
 });
 // export.dbConnection.connect();
 // var tablename = "messages"; // TODO: fill this out
