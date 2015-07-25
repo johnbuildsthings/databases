@@ -8,14 +8,12 @@ module.exports = {
   messages: {
     get: function (req, res) {
       var data = req.body;
-      if(data === undefined){
-
-      }
       connection.getFromDB('messages', ['message', 'room'], 'message', '*', function(arg){res.end(arg);});
     }, // a function which handles a get request for all messages
     post: function (req, res) {
       // console.log('POST MESSAGE');
       var data = req.body;
+      console.log('++++++++++++++++++++++++ DATA DATA: ' + data);
       // console.log(data);
       connection.addToDB('messages', ['message', 'room', 'username'], [data.message, data.roomname, data.username], function(){res.end();});
       // res.end();
